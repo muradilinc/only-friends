@@ -27,6 +27,10 @@ const userSchema = new Schema<UserFields, UserModel, UserMethods>({
       message: 'This user is already registered!',
     },
   },
+  token: {
+    type: String,
+    required: true,
+  },
   password: {
     type: String,
     required: true,

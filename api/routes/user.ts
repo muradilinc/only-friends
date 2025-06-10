@@ -1,6 +1,7 @@
 import express from 'express';
 import User from '../models/User';
 import mongoose from 'mongoose';
+import auth from '../middleware/auth';
 
 const userRouter = express.Router();
 
@@ -41,6 +42,37 @@ userRouter.post('/sessions', async (req, res, next) => {
 
     return res.send({ message: 'Email and password are correct!', user });
   } catch (error) {
+    return next(error);
+  }
+});
+
+userRouter.get('/search', async (req, res, next) => {
+  try {
+    const result = await User.find({ displayName: req.body.displayName });
+    return res.send({ result });
+  } catch (error) {
+    next(error);
+  }
+});
+
+userRouter.patch('/update/:id', auth, async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const { displayName } = req.body;
+    if (user) {
+      const updated = await User.findOneAndUpdate(
+        { _id: user._id },
+        { displayName },
+        { new: true },
+      );
+      return res.send({ message: 'updated', updated });
+    } else {
+      return res.status(404).send({ message: 'user no exist' });
+    }
+  } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      return res.status(422).send(error);
+    }
     return next(error);
   }
 });
