@@ -4,17 +4,9 @@ import LoginScreen from "./screens/LoginScreen";
 import {useAppSelector} from "./app/hooks";
 import {selectUser} from "./features/auth/authSlice";
 import {NavigationContainer} from '@react-navigation/native';
+import HomeScreen from "./screens/HomeScreen";
 
 const Stack = createNativeStackNavigator();
-
-function HomeScreen() {
-    return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Text>Home Screen</Text>
-        </View>
-    );
-
-}
 
 
 export default function App() {

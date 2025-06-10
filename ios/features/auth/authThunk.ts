@@ -42,3 +42,15 @@ export const login = createAsyncThunk<AuthResponse, AuthMutation, { rejectValue:
         }
     }
 );
+
+export const searchFriend = createAsyncThunk<AuthResponse[], string>(
+    'auth/search',
+    async (displayName) => {
+        try {
+            const response = await axiosApi.get(`/auth/search?displayName=${displayName}`);
+            return response.data.result;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);

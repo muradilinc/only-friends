@@ -48,7 +48,7 @@ userRouter.post('/sessions', async (req, res, next) => {
 
 userRouter.get('/search', async (req, res, next) => {
   try {
-    const result = await User.find({ displayName: req.body.displayName });
+    const result = await User.find({ displayName: { $regex: req.query.displayName || '', $options: 'i' } });
     return res.send({ result });
   } catch (error) {
     next(error);
